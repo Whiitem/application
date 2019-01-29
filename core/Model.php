@@ -1,14 +1,10 @@
 <?php
 
-abstract class _Object_ {
+abstract class Model {
 
-    protected static function getTable(){
-        return "test";
-    }
+    abstract static function getTable();
 
-    protected static function getPrimary_key(){
-        return "id";
-    }
+    abstract static function getPrimary_key();
 
     public static function getInstance($id = null){
         $class = self::class;
@@ -18,23 +14,19 @@ abstract class _Object_ {
             $bdd = self::_getBdd();
             $datas = $bdd->query("SELECT * FROM ".self::getTable()." WHERE ".self::getPrimary_key()." = ".$bdd->quote($id))->fetch(PDO::FETCH_ASSOC);
             if(!empty($datas)){
-                $object->fillWithDatas($datas);
+                foreach($datas as $property => $data){
+                    if(property_exists(self::class, $property)){
+                        $object->{$property} = $data;
+                    }
+                }
             }
         }
 
         return $object;
     }
 
-    protected function fillWithDatas(array $datas){
-        foreach($datas as $property => $data){
-            if(property_exists(self::class, $property)){
-                $this->{$property} = $data;
-            }
-        }
-    }
-
     protected function save(){
-        $id = $this->{self::getPrimary_key()};
+        return $this->{self::getPrimary_key()};
     }
 
     protected function _afterLoad(){}

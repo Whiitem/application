@@ -1,10 +1,15 @@
 <?php
 
-class MaintenanceController extends MVC {
+class MaintenanceController extends AbstractController {
 
     public function testAction(){
-        $this->template = "Maintenance/Test/test.phtml";
+        $this->setTemplate("Maintenance/Test/test.phtml");
         $this->id = 1;
+    }
+
+    public function jsonAction(){
+        $this->setTemplate("JSON");
+        $this->id = 3;
     }
 
 }

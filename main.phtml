@@ -1,0 +1,11 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Application 0.0.1</title>
+        <?= CSSLoader::initCSS() ?>
+        <?= JSLoader::initJS() ?>
+    </head>
+    <body>
+        <?= include(ROOT."mvc/views/".$this->template); ?>
+    </body>
+</html>
